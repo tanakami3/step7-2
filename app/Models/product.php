@@ -19,4 +19,11 @@ class product extends Model
         'img_path',
     ];
 
+    public function list() {
+        $list  = \DB::table('products');
+        $list->select('products.id', 'products.image', 'products.product_name', 'products.stock', 'companies.company_name');
+        $list->join('companies', 'products.company_id', '=', 'companies.id');
+        return $list;
+    }
+
 }
