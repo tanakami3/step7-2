@@ -14,4 +14,32 @@ class company extends Model
         'street_address',
         'representative_name',
     ];
+
+    // /**
+    //  * リレーション組み
+    //  * NOTE：会社は複数の商品を持つ
+    //  *
+    //  * @return void
+    //  */
+    // public function products() {
+    //     return $this->hasMany('App\Models\Product');
+    // }
+
+    //  /**
+    //  * companyデータ取得
+    //  * 
+    //  * @return  $company
+    //  */
+    // public function companyInfo() {
+    //     // companiesテーブルの中から、'id'カラムと'company_name'カラムをselect文で取得
+    //     $company = DB::table('companies')
+    //         ->select(
+    //             'id',
+    //             'company_name',
+    //         )
+    //         ->orderBy('id', 'asc')
+    //         ->get();
+        
+    //     return $company;
+    // }
 }

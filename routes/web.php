@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\productController;
 
+// Route::get('/', 'HomeController@index')->name('root');
 
 //商品一覧　画面表示
 Route::get('/', 'productController@showList')->name('products');
@@ -24,7 +25,7 @@ Route::get('/product/create', 'productController@showCreate')->name('create');
 Route::post('/product/store', 'productController@exeStore')->name('store');
 
 //商品詳細　画面表示
-Route::get('/product/detail/{id}', 'productController@detail')->name('detail');
+Route::get('/product/detail/{id}', 'productController@showDetail')->name('detail');
 
 //商品情報編集　画面表示
 Route::get('/product/edit/{id}', 'productController@showEdit')->name('edit');
@@ -34,10 +35,6 @@ Route::post('/product/update','productController@exeUpdate')->name('update');
 
 //商品削除　機能
 Route::post('/product/delete/{id}', 'productController@exeDelete')->name('delete');
-
-//検索　機能
-
-//
 
 
 //ログイン　機能
