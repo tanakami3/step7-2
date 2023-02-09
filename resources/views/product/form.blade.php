@@ -1,4 +1,5 @@
 @extends('product.layout')
+@section('top-page')
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h2>商品登録フォーム</h2>
@@ -82,8 +83,6 @@
                 <label for="image">
                     商品画像
                 </label> 
-                <!-- <label for="photo">画像ファイル:</label>
-                <input type="file" class="form-control" name="img_path">      -->
                 <br>
                 <input type="file" name="image" id="image">            
                 <br>
@@ -108,3 +107,4 @@ function checkSubmit(){
     }   
 }
 </script>
+@endsection

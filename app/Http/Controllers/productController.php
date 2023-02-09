@@ -17,83 +17,51 @@ class productController extends Controller
      * @param Request $request
      * @return view
      */
-    // public function showList(Request $request) {
 
-    //     $company_name = \DB::table('companies')->get();
-    //     $products = Product::all();
-
-    //     return view('product.list', compact('products','company_name'));
-
-
-    public function showList(Request $request) {
-
-        $query = DB::table("products")->join("companies", "products.company_id", "=", "companies.id");
-    
-        // 商品名検索
-        if (isset($request->keyword)) {
-            $query->where("product_name", "LIKE", "%" . $request->keyword . "%");
+    public function showList(Request $request)
+    {
+        $product_model = new product();
+        $query = $product_model->getProducts();
+        
+        $keyword = $request->input('keyword');
+        $company_id = $request->input('company_id');
+        
+        // 商品名検索    
+        if (isset($keyword)) {
+            $query->where("product_name", "LIKE", "%" . $keyword . "%");
         }
     
         // 企業ID検索
-        if (isset($request->company_id)) {
-            $query->where("company_id", "=", $request->company_id);
+        if (isset($company_id)) {
+            $query->where("company_id", "=", $company_id);
         }
     
-        $products = $query->get();
-    
+        $query = $query->get();
+        // dd($query);
         return view('product.list', [
-            'products' => $products,
+            'products' => $query,
             'companies' => Company::all(),
         ]);
     }
-    
-        // $keyword = $request->input('keyword');
-        // $selected_name = $request->input('company_id');
-
-        // try {
-        //     $product_list = $this->product->list();
-            
-        //     $company_data = $this->company->companyInfo();
-
-
-        //     if ( (!empty($keyword)) || (!empty($selected_name)) || (!empty($keyword) && !empty($selected_name)) ) {
-        //         $product_list = $this->product->searchProductByParams($keyword, $selected_name);
-        //     }
-        // }
-        // catch (\Throwable $e) {
-        //     throw new \Exception($e->getMessage());
-        // }
-        // $data = [
-        //     'product_list' => $product_list,
-        //     'company_data' => $company_data,
-        //     'keyword'      => $keyword,
-        // ];
-
-        // return view('product.list', compact('date'));
-
 
     /**
      * 商品詳細画面を表示する
      * @param int $id
      * @return view
      */
-    public function showDetail($id){
-        $product = Product::find($id);
+    public function showDetail($id)
+    {
+        // $product = Product::find($id);
+        $product_model = new product();
+        $product_date = $product_model->getOneDate($id);
 
-        if (is_null($product)) {
+        if (is_null($product_date)) {
             \Session::flash('err_msg','データがありません。');
             return redirect(route('products'));
         }
 
-        return view('product.detail', ['product' => $product]);
+        return view('product.detail', ['product' => $product_date]);
     }
-
-    // public function detail(Request $request) {
-
-    //     $id = $request->id;
-    //     $products = DB::table('products')->where('id', $id)->get();
-    //     return view('product.detail', ['products'=>$products]);
-    // }
 
     /**
      * 商品登録画面を表示する
@@ -102,7 +70,10 @@ class productController extends Controller
      */
     public function showCreate() 
     {
-        $company_name = \DB::table('companies')->get();
+        $company_date = new company();
+        $company_name = $company_date->companyInfo()->get();
+
+        // $company_name = \DB::table('companies')->get();
         return view('product.form', compact('company_name'));
     }
 
@@ -115,6 +86,7 @@ class productController extends Controller
     {
         //商品のデータを受け取る
         $inputs = $request->all();
+        $inputs['img_path'] = $inputs['image']->store('public');
 
         \DB::beginTransaction();
         try {
@@ -136,15 +108,20 @@ class productController extends Controller
      */
     public function showEdit($id)
     {
-        $company_name = \DB::table('companies')->get();
-        $product = Product::find($id);
+        // $company_name = \DB::table('companies')->get();
+        $company_date = new company();
+        $company_name = $company_date->companyInfo()->get();
 
-        if (is_null($product)) {
+        // $product = Product::find($id);
+        $product_model = new product();
+        $product_date = $product_model->getOneDate($id);
+
+        if (is_null($product_date)) {
             \Session::flash('err_msg','データがありません。');
             return redirect(route('products'));
         }
 
-        return view('product.edit',compact('product','company_name'));
+        return view('product.edit',compact('product_date','company_name'));
     }
 
     /**
@@ -152,67 +129,25 @@ class productController extends Controller
      * 
      * @return view
      */
-    // public function exeUpdate(ProductRequest $request) 
-    // {
-    //     //商品のデータを受け取る
-    //     $inputs = $request->all();
-    //     $img = $request->file('img');
-    //     //$path = \Storage::put('/public',$image);
-    //    //$path = explode('/',$path);
-    //     // if(empty($img)){
-    //     //    $img = $request->file('image')->getPathname();
-    //     // }
-            
-    //     \DB::beginTransaction();
-    //     try {
-    //         //商品を更新
-    //         $product = Product::find($inputs);
-    //         $product->fill([
-    //             'product_name' => $inputs['product_name'],
-    //             'company_id' => $inputs['company_id'],
-    //             'price' => $inputs['price'],
-    //             'stock' => $inputs['stock'],
-    //             'comment' => $inputs['comment'],
-    //             'img_path' => $inputs['image']
-    //             //'image' => $path[1],
-    //         ]);
-    //         $product = save();
-    //         \DB::commit();
-    //     } catch(\Throwable $e) {
-    //         \DB::rollback();
-    //         throw new \Exception($e -> getMessage());
-           
-    //     }
-       
-    //     \Session::flash('err_msg','商品を更新しました');
-    //     return redirect(route('products'));
-
-        public function exeUpdate(Request $request){
-            
-            //商品データを受け取る
-            $input = $request->all();
-            // $image = $request->file('img');
-            // $path = \Storage::put('/public',$image);
-            $input['image'] = $input['image']->store('public/');
-            // $input['image_path'] = $input['image_path']->store('public/stor');
-            //商品を更新する
-            \DB::beginTransaction();    
-            $products = Product::find($input['id']);
-            $products->fill([
-                'product_name' => $input['product_name'],
-                'img_path' => $input['image'],
-                'price' => $input['price'],
-                'company' => $input['company_id'],
-                'stocks' => $input['stock'],
-                'comment' => $input['comment'],
-            ]);
-            
-            $products->save();
-    
+    public function exeUpdate(Request $request)
+    {
+        //商品データを受け取る
+        $input = $request->all();          
+        $input['image'] = $input['image']->store('public');
+        
+        \DB::beginTransaction();   
+        try {
+            $product_model = new product();
+            $product_model->updateProduct($input);
+        
             \DB::commit();
-    
-            return redirect(route('products'));
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            throw new \Exception($e -> getMessage());
+            
         }
+        return redirect(route('products'));
+    }
 
     
     /**
@@ -228,7 +163,10 @@ class productController extends Controller
         }
         try {
             //商品を削除
-            Product::destroy($id);
+            // Product::destroy($id);
+            $product_model = new product();
+            $destroy = $product_model->destroyProduct($id);
+
         } catch(\Throwable $e) {
         throw new \Exception($e -> getMessage());
         }
@@ -236,49 +174,6 @@ class productController extends Controller
         \Session::flash('err_msg','商品を削除しました');
          return redirect(route('products'));
     }
-
-     
-    /**
-     * 商品検索
-     * 
-     * @param int $id
-     * @return view
-     */
-    //find(id)でレコード指定して企業名カラムを抽出する
-
-    // public function search(Request $request){
-
-    //     $product_name = $request -> keyword;
-    //     $company = $request -> company; //viewで指定したidを代入する
-    //     $price = $request -> price_number;
-
-    //     //idに対応したレコードを取得する
-    //     if($company){
-    //     $company = companies::find($company);
-    //     //$companyに代入したレコードの中のcompany_nameを参照して再代入する
-    //     $company = $company -> company_name;
-    //     }
-    //     //dd($company);
-
-    //         //Productテーブルからクエリを取得
-    //         $query = Product::query();
-  
-
-    //         //where句で検索結果をproductsに代入
-    //         if($product_name or $company){
-    //         $products = $query -> where('product_name','like','%'.$product_name.'%')->get();
-    //         $products = $query -> where('company','like','%'.$company.'%')->get();
-    //         }
-    //         //価格の検索条件も加える
-    //         if($price){
-    //         $products = $query -> where('price', '>=', $price)->get();
-    //         }
-
-    //         //list.blade.phpに検索結果を表示
-    //         //return view('product.list',['products' => $products],['companies' => companies::all()]);
-    //         return response()->json(['data'=>$products]);
-            
-    // }
 
 }
 

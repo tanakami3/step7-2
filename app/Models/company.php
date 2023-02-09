@@ -15,6 +15,12 @@ class company extends Model
         'representative_name',
     ];
 
+    public function companyInfo(){
+        $company_info = \DB::table('companies');
+
+        $company_info = $company_info;
+        return $company_info;
+    }
     // /**
     //  * リレーション組み
     //  * NOTE：会社は複数の商品を持つ

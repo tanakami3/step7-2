@@ -1,17 +1,18 @@
 @extends('product.layout')
+@section('top-page')
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h2>商品編集フォーム</h2>
         <form method="POST" action="{{ route('update') }}" onSubmit="return checkSubmit()" enctype="multipart/form-data">
         @csrf
-            <input type=“hidden” name="id" value="{{ $product->id }}">
+            <input type=“hidden” name="id" value="{{ $product_date->id }}">
             <div class="form-group">
                 <label for="product_name">商品名</label>
                 <input
                     id="product_name"
                     name="product_name"
                     class="form-control"
-                    value="{{ $product->product_name }}"
+                    value="{{ $product_date->product_name }}"
                     type="text"
                 >
                 @if ($errors->has('product_name'))
@@ -39,7 +40,7 @@
                     id="price"
                     name="price"
                     class="form-control"
-                    value="{{ $product->price }}"
+                    value="{{ $product_date->price }}"
                     type="text"
                 >
                 @if ($errors->has('price'))
@@ -54,7 +55,7 @@
                     id="stock"
                     name="stock"
                     class="form-control"
-                    value="{{ $product->stock }}"
+                    value="{{ $product_date->stock }}"
                     type="text"
                 >
                 @if ($errors->has('stock'))
@@ -72,7 +73,7 @@
                     name="comment"
                     class="form-control"
                     rows="4"
-                >{{ $product->comment }}</textarea>
+                >{{ $product_date->comment }}</textarea>
                 @if ($errors->has('comment'))
                     <div class="text-danger">
                         {{ $errors->first('comment') }}
@@ -107,3 +108,4 @@ function checkSubmit(){
     }   
 }
 </script>
+@endsection

@@ -83,7 +83,7 @@
                 <td>{{ $product->id }}</td>
                 <td>{{ $product->updated_at }}</td>
                 <td>{{ $product->product_name }}</td>
-                <td>{{ $product->img_path }}</td>
+                <td><img src="{{ Storage::url($product->img_path) }}"></td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->stock }}</td>
                 <td>{{ $product->company_name }}</td>

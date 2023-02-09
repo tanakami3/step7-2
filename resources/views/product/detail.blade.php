@@ -1,3 +1,5 @@
+@extends('product.layout')
+@section('top-page')
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h2>商品詳細</h2>
@@ -11,11 +13,12 @@
                 <th>価格</th>
                 <th>在庫数</th>
                 <th>コメント</th>
+                <th></th>
             </tr>
             <tr>
                 <td>{{ $product->id }}</td>
                 <td>{{ $product->updated_at }}</td>
-                <td>{{ $product->img_path }}</td>
+                <td><img src="{{ Storage::url($product->img_path) }}"></td>
                 <td>{{ $product->product_name }}</td>
                 <td>{{ $product->company_name }}</td>
                 <td>{{ $product->price }}</td>
@@ -27,3 +30,4 @@
         </table>
     </div>
 </div>
+@endsection
