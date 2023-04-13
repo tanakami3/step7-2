@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\company;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 
 class product extends Model
 {
+    use Sortable;
     protected $table = 'products';
 
     //可変項目
@@ -25,9 +27,19 @@ class product extends Model
         return $this->belongsTo('App\Models\company');
     }
 
+    public $sortable = [
+        'id',
+        'img_path',
+        'product_name',
+        'price',
+        'stocks',
+        'company',
+        'comment'
+    ];
+
     public function getProducts() {
         
-        $query = DB::table("products")
+        $query = Product::sortable()
         ->select("products.id","products.updated_at","products.product_name","products.img_path","products.price","products.stock","products.comment","companies.company_name")
         ->join("companies", "products.company_id", "=", "companies.id");
        
@@ -65,15 +77,5 @@ class product extends Model
         return $delete;
     }
 
-
-    // public $sortable = [
-    //     'id',
-    //     'img_path',
-    //     'product_name',
-    //     'price',
-    //     'stocks',
-    //     'company',
-    //     'comment'
-    // ];
  }
     

@@ -39,9 +39,6 @@ class productController extends Controller
         }
     
         $query = $query->get();
-        // $query = $query->json();
-        //dd($query);
-        // return response()->json(['data'=>$query]);
         return view('product.list', [
             'products' => $query,
             'companies' => Company::all(),
@@ -70,7 +67,7 @@ class productController extends Controller
        
         $query = $query->get();
         //dd($query);
-        
+
         Log::info($query);
         return response()->json(['data'=>$query]);
         // return response()->json($query);

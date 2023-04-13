@@ -62,18 +62,19 @@
     <!--検索結果を表示-->
 
     <div>
+        <h3>検索結果</h3>
         <table id="search_result"></table>
     </div>
 </div>
         <table class="table table-striped">
             <tr>
-                <th>商品ID</th>
-                <th>商品名</th>
-                <th>商品画像</th>
-                <th>価格</th>
-                <th>在庫数</th>
-                <th>企業名</th>
-                <th>コメント</th>
+                <th scope="col">@sortablelink('id', 'ID')</th>
+                <th scope="col">@sortablelink('product_name', '商品名')</th>
+                <th scope="col">@sortablelink('img_path', '画像')</th>
+                <th scope="col">@sortablelink('price', '価格')</th>
+                <th scope="col">@sortablelink('stock', '在庫数')</th>
+                <th scope="col">@sortablelink('company_name', '企業')</th>
+                <th scope="col">@sortablelink('comment', 'コメント')</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -89,9 +90,10 @@
                 <td>{{ $product->comment }}</td>
                 <td><a href="{{ route('detail', ['id'=>$product->id]) }}" class="btn btn-primary">詳細</a></td>
                 <td><button type="button" class="btn btn-primary" onclick="location.href='/product/edit/{{ $product->id }}' ">編集</button></td>
-                <form method="POST" action="{{ route('delete', $product->id) }}" onSubmit="return checkDelete('削除しますか？')">
+                <form method="POST" action="{{ route('delete', $product->id) }}" id="delete-id" onSubmit="return checkDelete('削除しますか？')">
                     @csrf
-                    <td><button type="submit" class="btn btn-primary" onclick=>削除</button></td>
+                    <td><button type="submit" class="btn btn-primary" id="delete-btn" >削除</button></td>
+                    <input type="hidden" value="{{$product->id}}" class="product-id">
                 </form>
             </tr>
         @endforeach
@@ -99,7 +101,7 @@
         </table>
     </div>
 </div>
-<script>
+<!-- <script>
 function checkDelete(){
     if(window.confirm('削除してよろしいですか？')){
         return true;
@@ -107,7 +109,8 @@ function checkDelete(){
         return false;
     }   
 }
-</script>
+</script> -->
+<script src="{{ asset('/js/delete.js') }}"></script>
 
 @endsection
 

@@ -26,7 +26,7 @@ $(function(){
         
         let html =`
         <div class="flex-center position-ref full-height">
-        <h1>検索結果</h1>
+       
         <!--商品一覧表示-->
 
             <table class="table table-striped">
@@ -45,7 +45,7 @@ $(function(){
                 <tr>
                     <td>${data.data[0].id}<td>
                     <td>${data.data[0].product_name}<td>
-                    <td><img src="/step7-2/public/storage/${data.data[0].img_path}" width=100 height=100></td> 
+                    <td><img src="/step7-2/public/storage/${data.data[0].img_path}" width=100 height=100></td>
                     <td>${data.data[0].price}<td>
                     <td>${data.data[0].stock}<td>
                     <td>${data.data[0].company_name}<td>
