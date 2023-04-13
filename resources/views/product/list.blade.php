@@ -10,7 +10,7 @@
 @section('top-page')
 <div class="row">
     <div class="col-md-10 col-md-offset-2">
-        <h2>商品一覧</h2>
+        <h1>商品一覧</h1>
         @if (session('err_msg'))
                 <p class="text-danger">
                     {{ session('err_msg') }}
@@ -39,10 +39,10 @@
                     </div>
             
                     <div class="clearfix">
-                    <td><button>
-                        <a href="{{ route('products') }}" class="text-black">
-                            クリア
-                        </a>
+                         <td><button>
+                            <a href="{{ route('products') }}" class="text-black">
+                                クリア
+                            </a>
                         </button></td>
                     </div>
                 </tr>
@@ -51,12 +51,13 @@
                 </tr>
                 <tr>
                     <span class="input-group-btn input-group-append">
-                        <td><input type="submit" id="btn-search" class="btn btn-primary" value="検索"><i class="fas fa-search"></i> </input></td>
+                        <td><input type="button" id="btn-search" class="btn btn-primary" value="検索"><i class="fas fa-search"></i> </input></td>
                     </span>
                 </tr>
             </form>
         </table>
         <script src="{{ asset('/js/search.js') }}"></script>
+       
     </div>
     <!--検索結果を表示-->
 
@@ -67,7 +68,6 @@
         <table class="table table-striped">
             <tr>
                 <th>商品ID</th>
-                <th>日付</th>
                 <th>商品名</th>
                 <th>商品画像</th>
                 <th>価格</th>
@@ -81,9 +81,8 @@
         @foreach($products as $product)
             <tr>
                 <td>{{ $product->id }}</td>
-                <td>{{ $product->updated_at }}</td>
                 <td>{{ $product->product_name }}</td>
-                <td><img src="{{ Storage::url($product->img_path) }}"></td>
+                <td><img src="{{ Storage::url($product->img_path) }}" width=100 height=100></td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->stock }}</td>
                 <td>{{ $product->company_name }}</td>

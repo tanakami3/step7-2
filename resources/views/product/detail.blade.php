@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ $product->id }}</td>
                 <td>{{ $product->updated_at }}</td>
-                <td><img src="{{ Storage::url($product->img_path) }}"></td>
+                <td><img src="{{ Storage::url($product->img_path) }}" width=100 height=100></td>
                 <td>{{ $product->product_name }}</td>
                 <td>{{ $product->company_name }}</td>
                 <td>{{ $product->price }}</td>

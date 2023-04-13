@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\product;
 use App\Models\company;
@@ -18,6 +19,7 @@ class productController extends Controller
      * @return view
      */
 
+ 
     public function showList(Request $request)
     {
         $product_model = new product();
@@ -37,12 +39,45 @@ class productController extends Controller
         }
     
         $query = $query->get();
-        // dd($query);
+        // $query = $query->json();
+        //dd($query);
+        // return response()->json(['data'=>$query]);
         return view('product.list', [
             'products' => $query,
             'companies' => Company::all(),
         ]);
+        
     }
+
+    public function search(Request $request)
+    { 
+       
+        $product_model = new product();
+        $query = $product_model->getProducts();
+        
+        $keyword = $request->input('keyword');
+        $company_id = $request->input('company_id');
+        
+        // 商品名検索    
+        if (isset($keyword)) {
+            $query->where("product_name", "LIKE", "%" . $keyword . "%");
+        }
+    
+        // 企業ID検索
+        if (isset($company_id)) {
+            $query->where("company_id", "=", $company_id);
+        }
+       
+        $query = $query->get();
+        //dd($query);
+        
+        Log::info($query);
+        return response()->json(['data'=>$query]);
+        // return response()->json($query);
+       
+       
+    }
+
 
     /**
      * 商品詳細画面を表示する
@@ -172,7 +207,9 @@ class productController extends Controller
         }
 
         \Session::flash('err_msg','商品を削除しました');
-         return redirect(route('products'));
+        //  return redirect(route('products'));
+
+         return response()->json(['data'=>Product::all()]);
     }
 
 }

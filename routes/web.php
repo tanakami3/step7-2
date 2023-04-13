@@ -18,6 +18,8 @@ use App\Http\Controllers\productController;
 //商品一覧　画面表示
 Route::get('/', 'productController@showList')->name('products');
 
+Route::get('/product/search', 'productController@search')->name('search');
+
 //商品登録　画面表示
 Route::get('/product/create', 'productController@showCreate')->name('create');
 

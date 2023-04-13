@@ -65,5 +65,15 @@ class product extends Model
         return $delete;
     }
 
+
+    // public $sortable = [
+    //     'id',
+    //     'img_path',
+    //     'product_name',
+    //     'price',
+    //     'stocks',
+    //     'company',
+    //     'comment'
+    // ];
  }
     
