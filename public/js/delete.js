@@ -1,15 +1,16 @@
-$(function(){
+
     $(document).on('click', '#delete-btn', function ()
+    // $('#delete-btn').on('click', function ()
     {
     // 何かの処理
-        let id = $(this).next().val();
+        let id = $('#product-id').val();
         console.log(id);
 
 
         if(confirm("削除しますか？") == true){
             $.ajax({
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                url:'/product/delete',
+                url:'delete',
                 type:'post',
                 data:{'id':id},
                 dataType: 'json',
@@ -17,7 +18,6 @@ $(function(){
                     alert(data.success);
                     }
             });
-        }
+        };
 
     });
-});

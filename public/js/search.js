@@ -2,9 +2,17 @@ $(function(){
     $('#btn-search').on('click', function (){
         let keyword = $('#txt-search').val();
         let company_id = $('#changeSelect').val();
+        let lowLimitPrice = $('#lowLimitPrice').val();
+        let upLimitPrice = $('#upLimitPrice').val();
+        let upLimitStock = $('#upLimitStock').val();
+        let lowLimitStock = $('#lowLimitStock').val();
 
         console.log(keyword);
         console.log(company_id);
+        console.log(lowLimitPrice);
+        console.log(upLimitPrice);
+        console.log(upLimitStock);
+        console.log(lowLimitStock);
         
 
         $.ajax({
@@ -12,9 +20,14 @@ $(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         type: 'get',
-        // url: '/product/search/'+keyword+'/'+company_id,
         url: '/product/search',
-        data:{'keyword': keyword,'company_id': company_id ,},
+        data:{'keyword': keyword,
+              'company_id': company_id ,
+              'lowLimitPrice':lowLimitPrice,
+              'upLimitPrice':upLimitPrice,
+              'upLimitStock':upLimitStock,
+              'lowLimitStock':lowLimitStock
+            },
         dataType: 'json',
         
         })
@@ -60,6 +73,7 @@ $(function(){
         .fail(function (err) {
         // 通信失敗時の処理
         alert('ファイルの取得に失敗しました。');
+
         });
 
     });

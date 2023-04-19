@@ -73,7 +73,6 @@ class product extends Model
     public function destroyProduct($id){
         //商品を削除
         $delete = Product::destroy($id);
-     
         return $delete;
     }
 

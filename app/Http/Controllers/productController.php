@@ -46,14 +46,19 @@ class productController extends Controller
         
     }
 
+    //検索機能（非同期）
     public function search(Request $request)
     { 
        
         $product_model = new product();
         $query = $product_model->getProducts();
         
-        $keyword = $request->input('keyword');
-        $company_id = $request->input('company_id');
+        $keyword = $request -> input('keyword');
+        $company_id = $request -> input('company_id');
+        $upLimitPrice = $request -> input('upLimitPrice');
+        $lowLimitPrice = $request -> input('lowLimitPrice');
+        $upLimitStock = $request -> input('upLimitStock');
+        $lowLimitStock = $request -> input('lowLimitStock');
         
         // 商品名検索    
         if (isset($keyword)) {
@@ -64,14 +69,21 @@ class productController extends Controller
         if (isset($company_id)) {
             $query->where("company_id", "=", $company_id);
         }
-       
+
+        //価格の検索条件も加える
+        if ($upLimitPrice or $lowLimitPrice){
+           $query -> wherebetween('price',[$lowLimitPrice,$upLimitPrice]);
+        }
+
+        if($upLimitStock or $lowLimitStock) {
+           $query -> wherebetween('stock',[$lowLimitStock,$upLimitStock]);
+        }
+
         $query = $query->get();
         //dd($query);
 
         Log::info($query);
         return response()->json(['data'=>$query]);
-        // return response()->json($query);
-       
        
     }
 
@@ -190,6 +202,7 @@ class productController extends Controller
      */
     public function exeDelete($id)
     {
+        dd($id);
         if (empty($id)){
             return false;
         }
@@ -198,15 +211,18 @@ class productController extends Controller
             // Product::destroy($id);
             $product_model = new product();
             $destroy = $product_model->destroyProduct($id);
+            Log::info($id);
+            
 
         } catch(\Throwable $e) {
         throw new \Exception($e -> getMessage());
         }
-
+        
         \Session::flash('err_msg','商品を削除しました');
-        //  return redirect(route('products'));
-
-         return response()->json(['data'=>Product::all()]);
+        return response()->json(['data'=>Product::all()]);
+        // return redirect(route('products'));
+        
+         
     }
 
 }

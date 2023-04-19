@@ -36,7 +36,7 @@ Route::get('/product/edit/{id}', 'productController@showEdit')->name('edit');
 Route::post('/product/update','productController@exeUpdate')->name('update');
 
 //商品削除　機能
-Route::post('/product/delete/{id}', 'productController@exeDelete')->name('delete');
+Route::post('/product/delete', 'productController@exeDelete')->name('delete');
 
 
 //ログイン　機能
