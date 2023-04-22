@@ -8,6 +8,7 @@ use App\Models\product;
 use App\Models\company;
 use App\Http\Requests\productRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 class productController extends Controller
@@ -80,7 +81,10 @@ class productController extends Controller
         }
 
         $query = $query->get();
-        //dd($query);
+        // dd($query);
+        foreach($query as $data){
+            $data -> img_path = Storage::url($data->img_path);
+        }
 
         Log::info($query);
         return response()->json(['data'=>$query]);

@@ -32,43 +32,35 @@ $(function(){
         
         })
         .done(function (data) {
-        var data_stringify = JSON.stringify(data);
-        var data = JSON.parse(data_stringify);
+            $(".list_data").remove();
+            var table = $(".table-striped");
+            var data_stringify = JSON.stringify(data);
+            var data = JSON.parse(data_stringify);
 
-        console.log(data);
-        
-        let html =`
-        <div class="flex-center position-ref full-height">
-       
-        <!--商品一覧表示-->
+            console.log(data);
 
-            <table class="table table-striped">
-                <thead>
+            // console.log(Object.keys(data.data).length);
+            // var len = Object.keys(data.data).length;          
+            // for(i=0;i<len;i++){
+
+            $.each(data.data, function(index,val) {   
+            console.log(val); 
+            let html =`
                     <tr>
-                    <th scope="col">商品ID</th>
-                    <th scope="col">商品名</th>
-                    <th scope="col">商品画像</th>
-                    <th scope="col">価格</th>
-                    <th scope="col">在庫数</th>
-                    <th scope="col">企業名</th>
-                    <th scope="col">コメント</th> 
+                        <td>${val.id}<td>
+                        <td>${val.product_name}<td>
+                        <td><img src="${val.img_path}" width=100 height=100></td>
+                        <td>${val.price}<td>
+                        <td>${val.stock}<td>
+                        <td>${val.company_name}<td>
+                        <td>${val.comment}<td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>${data.data[0].id}<td>
-                    <td>${data.data[0].product_name}<td>
-                    <td><img src="/step7-2/public/storage/${data.data[0].img_path}" width=100 height=100></td>
-                    <td>${data.data[0].price}<td>
-                    <td>${data.data[0].stock}<td>
-                    <td>${data.data[0].company_name}<td>
-                    <td>${data.data[0].comment}<td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-         `;
-        $('#search_result').append(html);
+            `;
+            table.append(html);
+            });
         })
         .fail(function (err) {
         // 通信失敗時の処理
