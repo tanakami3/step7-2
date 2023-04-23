@@ -86,6 +86,11 @@ class productController extends Controller
             $data -> img_path = Storage::url($data->img_path);
         }
 
+        foreach($query as $data){
+            $data -> detail_url = Route('detail', ['id'=>$data->id]);
+        }
+
+
         Log::info($query);
         return response()->json(['data'=>$query]);
        

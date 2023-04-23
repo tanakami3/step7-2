@@ -47,16 +47,20 @@ $(function(){
             console.log(val); 
             let html =`
                     <tr>
-                        <td>${val.id}<td>
-                        <td>${val.product_name}<td>
+                        <td>${val.id}</td>
+                        <td>${val.product_name}</td>
                         <td><img src="${val.img_path}" width=100 height=100></td>
-                        <td>${val.price}<td>
-                        <td>${val.stock}<td>
-                        <td>${val.company_name}<td>
-                        <td>${val.comment}<td>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <td>${val.price}</td>
+                        <td>${val.stock}</td>
+                        <td>${val.company_name}</td>
+                        <td>${val.comment}</td>
+                        <td><a href="${val.detail_url}" class="btn btn-primary">詳細</a></td>
+                        <td><button type="button" class="btn btn-primary" onclick="location.href='/product/edit/${val.id}' ">編集</button></td>
+                        <form method="POST" action="{{ route('delete', $product->id) }}" id="delete-id" onSubmit="return checkDelete('削除しますか？')">
+                            @csrf
+                            <td><button type="button" class="btn btn-primary" id="delete-btn" >削除</button></td>
+                            <input type="hidden" value="${val.id}" class="product-id" id="product-id" >
+                         </form>
                     </tr>
             `;
             table.append(html);
