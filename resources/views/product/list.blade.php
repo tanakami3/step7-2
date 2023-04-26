@@ -41,14 +41,16 @@
                 <td>{{ $product->comment }}</td>
                 <td><a href="{{ route('detail', ['id'=>$product->id]) }}" class="btn btn-primary">詳細</a></td>
                 <td><button type="button" class="btn btn-primary" onclick="location.href='/product/edit/{{ $product->id }}' ">編集</button></td>
-                <form method="POST" action="{{ route('delete', $product->id) }}" id="delete-id" onSubmit="return checkDelete('削除しますか？')">
+                <form method="POST" action="{{ route('delete', ['id'=>$product->id]) }}" id="delete-id" onSubmit="return checkDelete('削除しますか？')">
                     @csrf
-                    <td><button type="button" class="btn btn-primary" id="delete-btn" >削除</button></td>
+                    <td>
+                        <button type="button" class="btn btn-primary" id="delete-btn" >削除</button>
+                    </td>
                     <input type="hidden" value="{{$product->id}}" class="product-id" id="product-id" >
                 </form>
             </tr>
         @endforeach
-        
+            
         </table>
     </div>
 </div>

@@ -1,23 +1,22 @@
+$(document).on('click', '#delete-btn', function(){
+    
+    let id = $(this).parent().next().val();
+    let remove = $(this).parent().parent();
+    console.log(id);
 
-    $(document).on('click', '#delete-btn', function ()
-    // $('#delete-btn').on('click', function ()
-    {
-    // 何かの処理
-        let id = $('#product-id').val();
-        console.log(id);
+    if(confirm("削除しますか？") == true){
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url:'/product/delete',
+            type:'post',
+            data:{'id':id},
+            dataType: 'json',
+        })   
+        .done(function (data) {
+            remove.remove();
+        })
+        .fail(function (err) {
+        });
+    };
 
-
-        if(confirm("削除しますか？") == true){
-            $.ajax({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                url:'delete',
-                type:'post',
-                data:{'id':id},
-                dataType: 'json',
-                success: function(data) {
-                    alert(data.success);
-                    }
-            });
-        };
-
-    });
+});

@@ -91,7 +91,7 @@ class productController extends Controller
         }
 
 
-        Log::info($query);
+        // Log::info($query);
         return response()->json(['data'=>$query]);
        
     }
@@ -209,18 +209,15 @@ class productController extends Controller
      * @param int $id
      * @return view
      */
-    public function exeDelete($id)
+    public function exeDelete(Request $request)
     {
-        dd($id);
-        if (empty($id)){
-            return false;
-        }
+        Log::info($request->id);
         try {
             //商品を削除
             // Product::destroy($id);
             $product_model = new product();
-            $destroy = $product_model->destroyProduct($id);
-            Log::info($id);
+            $destroy = $product_model->destroyProduct($request->id);
+            Log::info($request->id);
             
 
         } catch(\Throwable $e) {
@@ -228,7 +225,7 @@ class productController extends Controller
         }
         
         \Session::flash('err_msg','商品を削除しました');
-        return response()->json(['data'=>Product::all()]);
+        return response()->json(['data' => "成功"]);
         // return redirect(route('products'));
         
          
