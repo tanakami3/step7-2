@@ -9,6 +9,7 @@ use App\Models\company;
 use App\Http\Requests\productRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\sale;
 
 
 class productController extends Controller

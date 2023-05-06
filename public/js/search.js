@@ -61,7 +61,6 @@ $(function(){
                             <td><button type="button" class="btn btn-primary" id="delete-btn" >削除</button></td>
                             <input type="hidden" value="${val.id}" class="product-id" id="product-id" >
                          </form>
-                         <td>${val.id}</td>
                     </tr>
             `;
             table.append(html);
